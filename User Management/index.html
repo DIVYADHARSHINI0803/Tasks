@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Management</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <h1>User Management</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="user in users" :key="user.id">
+                    <td>{{ user.username }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>{{ user.first_name }}</td>
+                    <td>{{ user.last_name }}</td>
+                </tr>
+            </tbody>
+        </table>
+        <button @click="openAddUserModal">Add User</button>
+
+        <div v-if="showModal">
+            <h2>Add New User</h2>
+
+            <input v-model="newUser.username" placeholder="Username">
+            <input v-model="newUser.email" placeholder="Email">
+            <input v-model="newUser.first_name" placeholder="First Name">
+            <input v-model="newUser.last_name" placeholder="Last Name">
+            <button @click="saveUser">Save</button>
+        </div>
+    </div>
+
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                users: [],
+                showModal: false,
+                newUser: {
+                    username: '',
+                    email: '',
+                    first_name: '',
+                    last_name: ''
+                }
+            },
+            methods: {
+                openAddUserModal() {
+                    this.showModal = true;
+                },
+                
+                saveUser() {
+                    
+                    this.users.push({ ...this.newUser, id: Date.now() });
+                    // Clear the form fields
+                    this.newUser = {
+                        username: '',
+                        email: '',
+                        first_name: '',
+                        last_name: ''
+                    };
+                    // Close the modal
+                    this.showModal = false;
+                }
+                
+            }
+        });
+    </script>
+</body>
+</html>
